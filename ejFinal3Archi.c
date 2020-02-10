@@ -17,25 +17,22 @@ void swapear_palabras(FILE* archivo, char* palabra1, char* palabra2){
 }
 
 void procesar_archivo(FILE* archivo){
-	bool ordenado = false;
-	bool eof = false;
-	while(!ordenado){
-		rewind(archivo);
-		eof = false;
-		ordenado = true;
-		while(!eof){
-			char palabra1[LONG_MAX];
-			char palabra2[LONG_MAX];
-			if (!leer_linea(archivo, palabra1) || !leer_linea(archivo, palabra2)){
-				eof = true;
+	bool ordenado = true;
+	while(true){
+		char palabra1[LONG_MAX];
+		char palabra2[LONG_MAX];
+		if (!leer_linea(archivo, palabra1) || !leer_linea(archivo, palabra2)){
+			if (ordenado){
 				break;
-			} else if (strcmp(palabra1, palabra2) > 0){
-				swapear_palabras(archivo, palabra1, palabra2);
-				fseek(archivo, -strlen(palabra1), SEEK_CUR);
-				ordenado = false;
-			}else{
-				fseek(archivo, -strlen(palabra2), SEEK_CUR);
 			}
+			rewind(archivo);
+			ordenado = true;
+		} else if (strcmp(palabra1, palabra2) > 0){
+			swapear_palabras(archivo, palabra1, palabra2);
+			fseek(archivo, -strlen(palabra1), SEEK_CUR);
+			ordenado = false;
+		}else{
+			fseek(archivo, -strlen(palabra2), SEEK_CUR);
 		}
 	}
 }
