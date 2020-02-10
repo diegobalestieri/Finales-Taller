@@ -18,7 +18,7 @@ bool tiene_una_palabra(char* linea){
 	return true;
 }
 
-int leer_linea(char* linea, FILE* arch, long int* posLeer){
+bool leer_linea(char* linea, FILE* arch, long int* posLeer){
 	fseek(arch, *posLeer, SEEK_SET);
 	return fgets(linea, TAM_MAX, arch) != NULL;
 }
@@ -38,7 +38,7 @@ int main(int argc, char const *argv[]) {
 	FILE* arch = fopen(argv[1], "r+");
 	if(!arch){
 		fprintf(stderr, "No se pudo abrir el archivo\n");
-		return -1;	
+		return -1;
 	}
 	long int posEscribir = 0;
 	long int posLeer = 0;

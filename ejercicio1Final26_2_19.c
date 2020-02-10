@@ -20,7 +20,7 @@ int crear_socket(const char* port, const char* ip, int* peerskt){
 	hints.ai_socktype = SOCK_STREAM; // TCP (or SOCK_DGRAM for UDP)
 	hints.ai_flags = AI_PASSIVE;	// AI_PASSIVE for server
 	int skt;
-	int s = getaddrinfo(NULL, port, &hints, &ptr);
+	int s = getaddrinfo(ip, port, &hints, &ptr);
 	if(s != 0){
 		fprintf(stderr, "Getaddrinfo: %s\n", gai_strerror(s));
         return -1;
