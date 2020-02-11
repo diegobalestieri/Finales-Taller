@@ -101,7 +101,8 @@ void escribir_linea(FILE* archivo, char* buffer, size_t seek_escritura){
 int leer_linea(FILE* archivo, char* buffer, char delim){
 	int contador = 0;
 	char c = fgetc(archivo);
-	while (c != EOF){
+	while (c != EOF || c != delim){
+		printf("Caracter leido %c\n", c);
 		buffer[contador] = c;
 		contador++;
 		c = fgetc(archivo);
@@ -118,11 +119,12 @@ void eliminar_lineas_1_palabra(FILE* archivo){
 		int pos_buffer = 0;
 		leidos = leer_linea(archivo, buffer, '\n');
 		if (leidos == 0){
-			break;
+			continue;
 		}
 		seek_lectura += leidos;
 		buffer[pos_buffer+1] = '\0';
 		int cant_palabras = contar_palabras(buffer);
+		fprintf(stderr, "Buffer: %s, cant_pal = %d\n", buffer, cant_palabras);
 		if (cant_palabras != 1){
 			escribir_linea(archivo, buffer, seek_escritura);
 			seek_escritura += leidos;

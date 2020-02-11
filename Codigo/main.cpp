@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 #include "SumadorProtegido.h"
+#include "ContadorDeInstancias.h"
 
 class Sumar_impar{
 private:
@@ -42,5 +43,15 @@ int main() {
     std::thread hilo2 (sumador_impar);
     hilo1.join();
     hilo2.join();
+
+    //Prueba de un atributo estatico en una clase
+    ContadorDeInstancias c1;
+    std::cout << c1.obtenerNroInstancias() << std::endl;
+    if (true){
+        ContadorDeInstancias c2;
+        std::cout << c1.obtenerNroInstancias() << " y " << c2.obtenerNroInstancias() << std::endl;
+    }
+    std::cout << c1.obtenerNroInstancias() << std::endl;
+
     return 0;
 }
