@@ -20,6 +20,7 @@ int crear_socket(const char* puerto){
 
 	if (getaddrinfo(NULL, puerto, &hints, &resultado) != 0){
 		fprintf(stderr, "No se pudieron obtener las direcciones\n");
+		freeaddrinfo(resultado);
 		return -1;
 	}
 
@@ -40,8 +41,10 @@ int crear_socket(const char* puerto){
 	}
 	if (!dir_actual){
 		fprintf(stderr, "Error al intentar bindear: %s\n", strerror(errno));
+		freeaddrinfo(resultado);
 		return -1;
 	}
+	freeaddrinfo(resultado);
 	return fd;
 }
 
