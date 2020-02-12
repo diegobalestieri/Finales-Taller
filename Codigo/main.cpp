@@ -3,6 +3,8 @@
 #include "SumadorProtegido.h"
 #include "ContadorDeInstancias.h"
 
+#include <list>
+#include "Interseccion.cpp"
 class Sumar_impar{
 private:
     SumadorProtegido& sumador;
@@ -53,5 +55,11 @@ int main() {
     }
     std::cout << c1.obtenerNroInstancias() << std::endl;
 
+    std::list<int> l1 = {1,2,3,4,5,6,7,8,9};
+    std::list<int> l2 = {4,2};
+    std::list<int> res = interseccion(l1, l2);
+    for (auto it = res.begin(); it != res.end(); it++){
+        std::cout << *it << ", ";
+    }
     return 0;
 }
