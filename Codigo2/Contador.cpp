@@ -1,7 +1,3 @@
-//
-// Created by manfer on 12/2/20.
-//
-
 #include <iostream>
 #include <thread>
 #include "Contador.h"

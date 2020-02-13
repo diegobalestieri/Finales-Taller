@@ -3,8 +3,9 @@
 //
 
 #include "ContadorDeInstancias.h"
-//La tenes que inicializar afuera porque sino se duplica. ?
+
 int ContadorDeInstancias::contador = 0;
+
 ContadorDeInstancias::ContadorDeInstancias(){
     contador++;
 }

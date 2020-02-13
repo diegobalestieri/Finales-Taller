@@ -15,5 +15,4 @@ public:
     int obtenerNroInstancias();
 };
 
-
 #endif //CODIGO_CONTADORDEINSTANCIAS_H
