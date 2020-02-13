@@ -11,8 +11,10 @@ void Contador::imprimir_par() {
     while (contador % 2 != 0){
         par.wait(lock);
     }
-    std::cout << "Sor imprimir par y el numero es: " << contador << std::endl;
-    contador++;
+    if (contador <= final){
+        std::cout << "Sor imprimir par y el numero es: " << contador << std::endl;
+        contador++;
+    }
     impar.notify_all();
 }
 
@@ -21,13 +23,36 @@ void Contador::imprimir_impar() {
     while (contador % 2 == 0){
         impar.wait(lock);
     }
-    std::cout << "Sor imprimir impar y el numero es: " << contador << std::endl;
-    contador++;
+    if (contador <= final){
+        std::cout << "Sor imprimir impar y el numero es: " << contador << std::endl;
+        contador++;
+    }
     par.notify_all();
 }
-
+void imprimir_pares(Contador* c){
+    while (c->obtener_actual() <= c->obtener_fin()){
+        c->imprimir_par();
+    }
+}
+void imprimir_impares(Contador* c){
+    while (c->obtener_actual() <= c->obtener_fin()){
+        c->imprimir_impar();
+    }
+}
 void Contador::empezar() {
-    std::thread h1 (&Contador::imprimir_par, this);
-    std::thread h2(&Contador::imprimir_impar, this);
+    std::thread h1 (imprimir_pares, this);
+    std::thread h2(imprimir_impares, this);
+    h1.join();
+    h2.join();
+}
 
+Contador::Contador(int fin) : final(fin){
+}
+
+int Contador::obtener_fin() {
+    return final;
+}
+
+int Contador::obtener_actual() {
+    return contador;
 }
