@@ -10,3 +10,10 @@ Para los operadores << y >> de STREAM. Que son los que se usan para imprimir o c
 Se tiene que agregar la declaracion **friend** porque son operadores de la clase STREAM (o algo así). Y con esta declaracion le permitís a 
 esta clase acceder en esta funcion a los atributos privados de la clase Fraccion.  
 Mas informacion sobre friends: [aqui](https://en.cppreference.com/w/cpp/language/friend)  
+
+
+
+unsigned really is a shorthand for **unsigned int**, and so defined in standard C.
+
+
+En C, si vos haces `int* dir = 1000;`, es equivalente hacer: `dir[1]` == `dir++` == `dir + sizeof(int)*1`.
