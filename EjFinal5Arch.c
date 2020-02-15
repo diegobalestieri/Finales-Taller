@@ -3,7 +3,8 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool leer_linea(FILE* arch, int16_t* numero){
+bool leer_linea(FILE* arch, int16_t* numero, long seek_lectura){
+	fseek(arch, seek_lectura, SEEK_SET);
 	return (fread(numero, 2, 1, arch) == 1);
 }
 
@@ -13,35 +14,35 @@ bool tengo_duplicar(int16_t numero){
 
 void swap(FILE* arch, long pos1, long pos2){
 	int16_t numero1, numero2;
-	fseek(arch, pos1, SEEK_SET);
-	fread(&numero1, 2, 1, arch);
-	fseek(arch, pos2, SEEK_SET);
-	fread(&numero2, 2, 1, arch);
+	leer_linea(arch, &numero1, pos1);
+	leer_linea(arch, &numero2, pos2);
 	fseek(arch, pos1, SEEK_SET);
 	fwrite(&numero2, 2, 1, arch);
 	fseek(arch, pos2, SEEK_SET);
 	fwrite(&numero1, 2, 1, arch);
 }
 
-void escribir_linea(FILE* arch, int16_t* numero){
-	long posActual = ftell(arch);
+void escribir_linea(FILE* arch, int16_t* numero, long seek_lectura){
+	long inicio = ftell(arch); //Porque esta en la posicion luego de leer el que tengo que duplicar
+	
 	fseek(arch, 0, SEEK_END);
+	long final = ftell(arch);
 	fwrite(numero, 2, 1, arch);
-	long final = ftell(arch)-2;
-	long pos1 = final;
-	long pos2 = final-2;
-	for(int i = 0; i < (final-posActual)/2; ++i){
-		swap(arch, pos1, pos2);
-		pos2 -= 2;
-		pos1 -= 2;
+	long pos = final;
+	for(int i = 0; i < (final-inicio)/2; ++i){
+		swap(arch, pos, pos-2);
+		pos -= 2;
 	}
 }
 
 void duplicar_lineas(FILE* arch){
+	long seek_lectura = 0;
 	int16_t numero;
-	while(leer_linea(arch, &numero)){
+	while(leer_linea(arch, &numero, seek_lectura)){
+		seek_lectura += 2;
 		if(tengo_duplicar(numero)){
-			escribir_linea(arch, &numero);
+			escribir_linea(arch, &numero, seek_lectura);
+			seek_lectura += 2;
 		}
 	}
 }
