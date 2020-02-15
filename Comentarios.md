@@ -15,5 +15,6 @@ Mas informacion sobre friends: [aqui](https://en.cppreference.com/w/cpp/language
 
 unsigned really is a shorthand for **unsigned int**, and so defined in standard C.
 
+Para swapear endiannes de **2 bytes** se puede hacer: `short a = (aux>>8) | (aux<<8);`
 
 En C, si vos haces `int* dir = 1000;`, es equivalente hacer: `dir[1]` == `dir++` == `dir + sizeof(int)*1`.
