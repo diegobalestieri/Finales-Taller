@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+ #include <arpa/inet.h>
 
 bool leer_linea(FILE* arch, int16_t* numero, long seek_lectura){
 	fseek(arch, seek_lectura, SEEK_SET);
@@ -48,12 +49,13 @@ void duplicar_lineas(FILE* arch){
 }
 
 void crear_arch(const char* nombre){
-	FILE* arch = fopen(nombre, "w");
+	FILE* arch = fopen(nombre, "wb");
 	for(int16_t i = 0; i < 17; ++i){
+		int16_t aux = htons(i);
 		if(i == 6){
-			fwrite(&i, 2, 1, arch);
+			fwrite(&aux, 2, 1, arch);
 		}
-		fwrite(&i, 2, 1, arch);
+		fwrite(&aux, 2, 1, arch);
 	}
 	fclose(arch);
 }
@@ -64,7 +66,7 @@ int main(int argc, char const *argv[]){
 		return -1;
 	}
 	crear_arch(argv[1]);
-	FILE* arch = fopen(argv[1], "r+");
+	FILE* arch = fopen(argv[1], "rb+");
 	if(arch == NULL){
 		fprintf(stderr, "El archivo no existe\n");
 		return -1;
