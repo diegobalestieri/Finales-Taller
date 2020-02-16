@@ -2,13 +2,13 @@
 
 void DrawCircle(SDL_Renderer * renderer, int centroX, int centroY, int radio){
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
-    int point_x;
-    int point_y;
+    int x;
+    int y;
     while(radio > 0){
         for (double t = 0; t < 360; t+=0.01){
-            point_x = centroX + radio * cos(t);
-            point_y = centroY + radio * sin(t);
-            SDL_RenderDrawPoint(renderer, point_x, point_y);
+            x = centroX + radio * cos(t);
+            y = centroY + radio * sin(t);
+            SDL_RenderDrawPoint(renderer, x, y);
         }
         radio--;
     }
@@ -20,6 +20,7 @@ void dibujar(SDL_Renderer *renderer, int ancho, int altura) {
     rectangulo.y = 10;
     rectangulo.w = ancho/2;
     rectangulo.h = altura/2;
+
     SDL_SetRenderDrawColor(renderer, 255, 255, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderFillRect(renderer, &rectangulo);
     SDL_RenderDrawRect(renderer, &rectangulo);
